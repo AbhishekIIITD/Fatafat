@@ -4,7 +4,7 @@
 
 Welcome to Fatafat Shopping! This guide will walk you through the various features and functionalities of our online shopping platform. From browsing products to managing your profile, this guide aims to make your shopping experience seamless and enjoyable.
 
----
+--
 
 ## Table of Contents
 
