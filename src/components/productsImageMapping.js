@@ -1,7 +1,7 @@
 export const productImageMapping = {
     Apples: 'https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg',
     Bananas: 'https://images.pexels.com/photos/61127/pexels-photo-61127.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'T-shirt': 'https://images.pexels.com/photos/833185/pexels-photo-833185.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'T-shirt': 'https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     Jeans: 'https://images.pexels.com/photos/2068349/pexels-photo-2068349.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     Laptop: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     Milk: 'https://images.pexels.com/photos/5996524/pexels-photo-5996524.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -9,4 +9,8 @@ export const productImageMapping = {
     Dress: 'https://images.pexels.com/photos/833185/pexels-photo-833185.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     Sneakers: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     Smartphone: 'https://images.pexels.com/photos/1294886/pexels-photo-1294886.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    Ajumaro: 'https://drive.google.com/uc?id=1Dac1GNW1Hs4J8wDbajnEfH8xHSS3rLHV',
+    Gucci:'https://images.pexels.com/photos/15467943/pexels-photo-15467943/free-photo-of-woman-in-white-dress.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    Zara:'https://images.pexels.com/photos/23440287/pexels-photo-23440287/free-photo-of-white-satin-shirt-from-zara-hanging-on-a-hanger.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    Denim : 'https://images.pexels.com/photos/2196688/pexels-photo-2196688.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   };

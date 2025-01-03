@@ -43,7 +43,7 @@ const Groceries = () => {
   return (
     domLoaded && (
       <div className="flex flex-col align-middle w-full">
-        <div className="groceries-list flex flex-row w-full justify-evenly">
+        <div className="groceries-list flex flex-col md:flex-row w-full justify-center md-justify-evenly">
           {groceries &&
             groceries.map((grocery) => (
               <ProductCard productID={grocery.ProductID} productName={grocery.ProductName} description = {grocery.Description} price={grocery.Price} imageUrl={grocery.Product_Image}/>

@@ -1,60 +1,89 @@
-import React, { useState, useEffect } from "react";
-import { IconButton } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ProductCard from "./ProductCard";
-import { productImageMapping } from "./productsImageMapping";
+import React from "react";
+import Image from "next/image";
+import { Typography, Button } from "@mui/material";
 
-const Electronics = () => {
-  const [electronicsData, setElectronicsData] = useState(null);
-  const [domLoaded, setDomLoaded] = useState(false);
-
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
-
-  function handleSetData(data) {
-    const updatedData = data.map((product) => {
-      const imageUrl = productImageMapping[product.ProductName];
-      return { ...product, Product_Image: imageUrl };
-    });
-    setElectronicsData(updatedData);
-  }
-
-  useEffect(() => {
-    // Fetch Electronics data from the API
-    fetch("/api/getElectronics")
-      .then((response) => response.json())
-      .then((data) => {
-        handleSetData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-
-  }, []);
+const ElectronicsGrid = () => {
+  const electronics =  [
+    {
+      id: 1,
+      name: "Laptop",
+      description: "High-performance laptop for professionals.",
+      image: "/product/Laptop.jpg",
+      link: "/product/Laptop",
+    },
+    {
+      id: 2,
+      name: "Smartphone",
+      description: "Latest smartphone with cutting-edge features.",
+      image: "/product/smartphone.jpg",
+      link: "/products/smartphone",
+    },
+    {
+      id: 3,
+      name: "Tablet",
+      description: "Lightweight tablet perfect for work and play.",
+      image: "/product/Tablet.jpg",
+      link: "/products/tablet",
+    },
+    {
+      id: 4,
+      name: "Smartwatch",
+      description: "Track your fitness and stay connected.",
+      image: "/product/SmartWatch.jpg",
+      link: "/products/smartwatch",
+    },
+  ];
 
   return (
-    domLoaded && (
-      <div className="flex flex-col align-middle w-full">
-        <div className="electronics-list flex flex-row w-full justify-evenly">
-          {electronicsData &&
-            electronicsData.map((electronicsItem) => (
-              <ProductCard
-                productID={electronicsItem.ProductID}
-                productName={electronicsItem.ProductName}
-                description={electronicsItem.Description}
-                price={electronicsItem.Price}
-                imageUrl={electronicsItem.Product_Image}
+    <div className="flex flex-col items-center justify-center w-full p-6 bg-gray-50">
+      {/* Header */}
+      <Typography
+        variant="h4"
+        className="text-center text-gray-800 font-bold mb-8"
+      >
+        Explore Our Electronics
+      </Typography>
+
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-4xl">
+        {electronics.map((item, index) => (
+          <div
+            key={item.id}
+            className={`relative flex flex-col items-center bg-white shadow-md rounded-lg p-4 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg ${
+              index % 2 === 0 ? "row-span-2" : "row-span-1"
+            }`}
+          >
+            <div className={`w-full ${index % 2 === 0 ? "h-60" : "h-40"} relative mb-4`}>
+              <Image
+                src={item.image}
+                alt={item.name}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md"
               />
-            ))}
-        </div>
-        {/* Show more icon */}
-        <IconButton color="primary" aria-label="show more" className="p-8">
-          <ExpandMoreIcon />
-        </IconButton>
+            </div>
+            <Typography variant="h6" className="text-gray-800 font-semibold">
+              {item.name}
+            </Typography>
+            <Typography
+              variant="body2"
+              className="text-gray-600 text-center mt-2 mb-4"
+            >
+              {item.description}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => window.location.href = item.link}
+              className="mt-auto"
+            >
+              Explore
+            </Button>
+          </div>
+        ))}
       </div>
-    )
+    </div>
   );
 };
 
-export default Electronics;
+export default ElectronicsGrid;

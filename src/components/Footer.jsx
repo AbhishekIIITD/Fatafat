@@ -4,49 +4,52 @@ import { Facebook, Twitter, Instagram } from "@mui/icons-material";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-12 w-full">
-      <div className="container mx-auto">
-        <Grid container spacing={3} justifyContent="center" alignItems="center">
+    <footer className="bg-black text-white py-24 w-full">
+      <div className="container mx-auto px-6">
+        <Grid container spacing={4} justifyContent="center" alignItems="center">
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" className="mb-4">
-              Contact Us
+            <Typography variant="h6" className="mb-4 font-bold">
+              📞 Contact Us
             </Typography>
             <Typography variant="body2" className="mb-2">
-              Email: abhishek@iiitd.ac.in
+              Email:{" "}
+              <a href="mailto:abhishek@iiitd.ac.in" className="underline">
+                abhishek@iiitd.ac.in
+              </a>
             </Typography>
             <Typography variant="body2">Phone: +1234567890</Typography>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" className="mb-4">
-              Follow Us
+            <Typography variant="h6" className="mb-4 font-bold">
+              🌐 Follow Us
             </Typography>
-            <div className="flex space-x-4">
-              <IconButton>
+            <div className="flex space-x-4 justify-center">
+              <IconButton className="bg-white text-green-600 hover:bg-green-700">
                 <Facebook />
               </IconButton>
-              <IconButton>
+              <IconButton className="bg-white text-green-500 hover:bg-green-600">
                 <Twitter />
               </IconButton>
-              <IconButton>
+              <IconButton className="bg-white text-yellow-500 hover:bg-yellow-600">
                 <Instagram />
               </IconButton>
             </div>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" className="mb-4">
-              About Us
+            <Typography variant="h6" className="mb-4 font-bold">
+              🚀 About Us
             </Typography>
             <Typography variant="body2">
-              Welcome to Fatafat, your ultimate destination for quick and
-              convenient online shopping! At Fatafat, we strive to provide you
-              with a seamless shopping experience, offering a vast array of
-              products at your fingertips.
+              Fatafat is your go-to platform for instant delivery. We bring
+              essentials to your doorstep in a flash, ensuring speed, reliability,
+              and convenience every time you shop.
             </Typography>
           </Grid>
         </Grid>
         <div className="text-center mt-8">
-          <Typography variant="body2">
-            &copy; {new Date().getFullYear()} Fatafat.com. All rights reserved.
+          <Typography variant="body2" className="text-sm">
+            &copy; {new Date().getFullYear()} Fatafat.com | Designed for speed and
+            satisfaction 🚴‍♂️.
           </Typography>
         </div>
       </div>

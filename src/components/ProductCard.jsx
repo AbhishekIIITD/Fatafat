@@ -1,65 +1,107 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Paper, Typography, Button, IconButton } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-const ProductCard = ({ productID,productName, description, price, imageUrl }) => {
-  
-  const router=useRouter()
-  const goToProduct=()=>{
-    console.log(productID)
-    router.push("/product/"+productID)
-  }
+const ProductCard = ({ productID, productName, description, price, imageUrl }) => {
+  const [quantitySelected, changeQuantitySelected] = useState(0);
+  const router = useRouter();
 
-  
-  const addToCart = async (customerID,productID) => {
+  useEffect(() => {
+    const fetchInitialQuantity = async () => {
+      try {
+        const quantity = await countProductsInCart(productID);
+        changeQuantitySelected(quantity);
+      } catch (error) {
+        console.error("Error fetching initial quantity:", error);
+      }
+    };
+    fetchInitialQuantity();
+  }, [productID]);
+
+  const countProductsInCart = async (productID) => {
+    try {
+      const { data } = await axios.get(`/api/getUser`);
+      const customerID = data.user[0].Customer_id;
+      if (customerID) {
+        const response = await fetch("/api/getProductQuantity", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productID, customerID }),
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch product quantity.");
+
+        const quantity = await response.json();
+        return quantity[0].quantity || 0;
+      }
+    } catch (error) {
+      console.error("Error counting products in cart:", error);
+      return 0;
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const { data } = await axios.get(`/api/getUser`);
+      const customerID = data.user[0].Customer_id;
+
+      if (customerID) {
+        await addToCart(customerID, productID);
+        const newQuantity = await countProductsInCart(productID);
+        changeQuantitySelected(newQuantity);
+      } else {
+        router.push("/signin");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      router.push("/signin");
+    }
+  };
+
+  const addToCart = async (customerID, productID) => {
     try {
       const response = await fetch("/api/addToCart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ customerID,productID }), // Pass customerId as an object
+        body: JSON.stringify({ customerID, productID }),
       });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log("Success:", data);
-      
+      if (!response.ok) throw new Error("Failed to add product to cart.");
     } catch (error) {
-      console.error("Error adding orders to the cart:", error);
-    } 
+      console.error("Error adding product to cart:", error);
+    }
   };
 
-  const handleAddToCart = async() => {
-    // Implement your add to cart logic here
+  const removeFromCart = async () => {
     try {
-      // Call the getUser API to check if the user is logged in
-      const response = await axios.get(`/api/getUser`);
-      
-      console.log()
-      if (response) {
-        console.log(response.data.user[0])
-        const cartResponse=addToCart(response.data.user[0].Customer_id,productID)
-        console.log(cartResponse)
-        
+      const { data } = await axios.get(`/api/getUser`);
+      const customerID = data.user[0].Customer_id;
 
-      } else {
-        // If user is not logged in, redirect to the login page
-        router.push("/sigin"); // Replace "/login" with your actual login page URL
+      if (customerID) {
+        await fetch("/api/deleteProductFromCart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productID, customerID }),
+        });
+
+        const newQuantity = await countProductsInCart(productID);
+        changeQuantitySelected(newQuantity);
       }
     } catch (error) {
-      console.log(error)
-      router.push("/signin");
+      console.error("Error removing from cart:", error);
     }
-
-    console.log("Adding to cart:", productName);
   };
 
   return (
@@ -85,16 +127,30 @@ const ProductCard = ({ productID,productName, description, price, imageUrl }) =>
         </Typography>
       </div>
       <div className="flex justify-between items-center">
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          startIcon={<AddShoppingCartIcon />}
-          onClick={handleAddToCart}
-        >
-          Add to Cart
-        </Button>
-        <IconButton color="primary" aria-label="more info" onClick={goToProduct}>
+        {quantitySelected === 0 ? (
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            startIcon={<AddShoppingCartIcon />}
+            onClick={handleAddToCart}
+          >
+            Add to Cart
+          </Button>
+        ) : (
+          <div className="flex items-center space-x-2">
+            <IconButton size="small" color="secondary" onClick={removeFromCart}>
+              <RemoveIcon />
+            </IconButton>
+            <Typography variant="body1" className="font-semibold">
+              {quantitySelected}
+            </Typography>
+            <IconButton size="small" color="primary" onClick={handleAddToCart}>
+              <AddIcon />
+            </IconButton>
+          </div>
+        )}
+        <IconButton color="primary" aria-label="more info" onClick={() => router.push(`/product/${productID}`)}>
           <ChevronRightIcon />
         </IconButton>
       </div>
@@ -103,4 +159,3 @@ const ProductCard = ({ productID,productName, description, price, imageUrl }) =>
 };
 
 export default ProductCard;
-
